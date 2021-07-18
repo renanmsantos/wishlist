@@ -2,10 +2,15 @@ package br.com.luizalabs.wishlist.rest.resources.builders;
 
 import br.com.luizalabs.wishlist.domain.model.Customer;
 import br.com.luizalabs.wishlist.domain.model.Product;
+import br.com.luizalabs.wishlist.rest.endpoints.CustomerEndpoint;
 import br.com.luizalabs.wishlist.rest.resources.CustomerRequest;
 import br.com.luizalabs.wishlist.rest.resources.CustomerResponse;
+import org.springframework.hateoas.server.core.ControllerEntityLinksFactoryBean;
+import org.springframework.hateoas.server.mvc.ControllerLinkRelationProvider;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,4 +35,9 @@ public class CustomerResponseBuilder {
         return resources;
     }
 
+    public URI createLinkById(Customer customer) {
+        return WebMvcLinkBuilder.linkTo(
+                WebMvcLinkBuilder.methodOn(CustomerEndpoint.class).findById(customer.getCustomerId())
+        ).toUri();
+    }
 }
