@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface WishlistRepository extends MongoRepository<Wishlist, String> {
     @Query("{ 'customer.customerId' : ?0 }")
-    Wishlist findByCustomerId( ObjectId customerId );
+    Optional<Wishlist> findByCustomerId( ObjectId customerId );
 
     @Query("{ 'customer.customerId' : ?0, 'products.productId' : ?1  }")
     Optional<Wishlist> findByCustomerIdAndProductId(ObjectId customerId, ObjectId productId );

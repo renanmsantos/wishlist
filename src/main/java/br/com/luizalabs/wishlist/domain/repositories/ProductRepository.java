@@ -4,4 +4,8 @@ import br.com.luizalabs.wishlist.domain.model.Product;
 import br.com.luizalabs.wishlist.domain.model.Wishlist;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface ProductRepository extends MongoRepository <Product, String> { }
+import java.util.Optional;
+
+public interface ProductRepository extends MongoRepository <Product, String> {
+    Optional<Product> findByName(String name);
+}

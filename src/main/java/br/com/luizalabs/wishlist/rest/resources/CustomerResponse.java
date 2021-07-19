@@ -1,8 +1,11 @@
 package br.com.luizalabs.wishlist.rest.resources;
 
 import br.com.luizalabs.wishlist.domain.model.Customer;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 
-public class CustomerResponse {
+@Relation( value = "customer", collectionRelation = "customers")
+public class CustomerResponse extends RepresentationModel<CustomerResponse> {
     private String customerId;
     private String cpf;
     private String firstName;

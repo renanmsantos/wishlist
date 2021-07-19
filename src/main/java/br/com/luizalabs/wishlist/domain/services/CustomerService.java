@@ -13,8 +13,11 @@ import java.util.Optional;
 @Service
 public class CustomerService {
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    final private CustomerRepository customerRepository;
+
+    CustomerService( CustomerRepository customerRepository ){
+        this.customerRepository = customerRepository;
+    }
 
     public Customer save(Customer customer){
         return customerRepository.save(customer);
@@ -51,4 +54,5 @@ public class CustomerService {
         return customerRepository.save( costumerDb );
 
     }
+
 }

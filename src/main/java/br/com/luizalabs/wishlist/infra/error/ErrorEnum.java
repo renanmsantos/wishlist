@@ -5,7 +5,8 @@ import org.springframework.http.HttpStatus;
 public enum ErrorEnum {
 
     NOT_FOUND( HttpStatus.NOT_FOUND.toString(), HttpStatus.NOT_FOUND, HttpStatus.NOT_FOUND.toString() ),
-    ALREADY_EXISTS( "Register already exists.", HttpStatus.CONFLICT, "ALREADY_EXISTS" );
+    ALREADY_EXISTS( "Register already exists.", HttpStatus.CONFLICT, "ALREADY_EXISTS" ),
+    MAX_WISHLIST_REACHED( "Maximum list size reached.", HttpStatus.BAD_REQUEST, "MAX_WISHLIST_REACHED" );
 
     private String errorMessage;
     private HttpStatus statusCode;

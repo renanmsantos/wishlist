@@ -6,10 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Document( collection = "wishlist")
 public class Wishlist implements Serializable {
@@ -22,13 +19,12 @@ public class Wishlist implements Serializable {
     private Customer customer;
 
     @Field("products")
-    private List<Product> products;
+    private List<Product> products = new ArrayList<>();
 
     public Wishlist() {}
 
-    public Wishlist(Customer customer, Product product) {
+    public Wishlist(Customer customer) {
         this.customer = customer;
-        this.products = Arrays.asList(product);
     }
 
     public String getWishlistId() {
@@ -48,4 +44,7 @@ public class Wishlist implements Serializable {
         return products;
     }
 
+    public void setProducts(List<Product> products) {
+        this.products = products;
+    }
 }

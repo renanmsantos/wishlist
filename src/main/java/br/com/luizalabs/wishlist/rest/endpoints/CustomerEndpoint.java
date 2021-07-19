@@ -8,13 +8,13 @@ import br.com.luizalabs.wishlist.infra.error.ErrorEnum;
 import br.com.luizalabs.wishlist.rest.resources.CustomerRequest;
 import br.com.luizalabs.wishlist.rest.resources.CustomerResponse;
 import br.com.luizalabs.wishlist.rest.resources.builders.CustomerResponseBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping( produces = MediaTypes.HAL_JSON_VALUE)
@@ -23,14 +23,16 @@ public class CustomerEndpoint {
     public static final String CUSTOMER_ENDPOINT = "/rs/customers";
     public static final String CUSTOMER_SELF_ENDPOINT = "/rs/customers/{customerId}";
 
-    @Autowired
-    private CustomerService customerService;
+    final private CustomerService customerService;
+    final private CustomerResponseBuilder customerResponseBuilder;
 
-    @Autowired
-    private CustomerResponseBuilder customerResponseBuilder;
+    CustomerEndpoint( CustomerService customerService, CustomerResponseBuilder customerResponseBuilder ){
+        this.customerService = customerService;
+        this.customerResponseBuilder = customerResponseBuilder;
+    }
 
     @PostMapping( value = CUSTOMER_ENDPOINT)
-    public ResponseEntity<CustomerResponse> saveCustomer( @RequestBody final CustomerRequest requestBody ){
+    public ResponseEntity<EntityModel<CustomerResponse>> saveCustomer( @RequestBody final CustomerRequest requestBody ){
 
         Customer customer =  customerResponseBuilder.toEntity(requestBody);
 
@@ -40,43 +42,42 @@ public class CustomerEndpoint {
 
         customerService.save(customer);
 
-        return ResponseEntity.created( customerResponseBuilder.createLinkById(customer) )
-                .build();
+        return ResponseEntity
+                .created( customerResponseBuilder.createLinkById(customer) )
+                .body( customerResponseBuilder.toEntityModel(customer) );
     }
 
     @PutMapping( value = CUSTOMER_SELF_ENDPOINT)
-    public ResponseEntity<CustomerResponse> updateCustomer( @PathVariable("customerId") final String customerId,
-                                            @RequestBody final CustomerRequest requestBody ){
-        return ResponseEntity.ok(
-                customerResponseBuilder.toResource(
-                        customerService.update( customerId, customerResponseBuilder.toEntity(requestBody))
-                )
-        );
+    public ResponseEntity<EntityModel<CustomerResponse>> updateCustomer(
+            @PathVariable("customerId") final String customerId,
+            @RequestBody final CustomerRequest requestBody ){
+
+        Customer customer = customerService.update( customerId, customerResponseBuilder.toEntity(requestBody));
+
+        return ResponseEntity
+                .created( customerResponseBuilder.createLinkById(customer)  )
+                .body( customerResponseBuilder.toEntityModel(customer) );
     }
 
     @GetMapping( value = CUSTOMER_ENDPOINT)
-    public ResponseEntity<List<CustomerResponse>> findAll(){
+    public CollectionModel<EntityModel<CustomerResponse>> findAll(){
 
         final List<Customer> list = customerService.findAll();
-
         if( list.isEmpty() ){
             throw new NotFoundException(ErrorEnum.NOT_FOUND);
         }
 
-        return ResponseEntity.ok(
-                customerResponseBuilder.toResources(list)
-        );
+        return customerResponseBuilder.toCollectModelEntityModel(list);
     }
 
     @GetMapping( value = CUSTOMER_SELF_ENDPOINT)
-    public ResponseEntity<CustomerResponse> findById( @PathVariable("customerId") final String customerId ){
+    public EntityModel<CustomerResponse> findById(
+            @PathVariable("customerId") final String customerId ){
 
         final Customer customer = customerService.findById( customerId )
                 .orElseThrow( () -> new NotFoundException(ErrorEnum.NOT_FOUND) );
 
-        return ResponseEntity.ok(
-            customerResponseBuilder.toResource( customer )
-        );
+        return customerResponseBuilder.toEntityModel(customer);
     }
 
 }
