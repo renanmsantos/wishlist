@@ -16,6 +16,7 @@ Uma das funcionalidades mais interessantes em um e-commerce é a Wishlist, ou a 
 
 ### Tecnologias utilizadas
 
+- Java 16
 - Spring Boot
 - Spring Web
 - Spring HATEOAS (RESTFUL API)
@@ -24,5 +25,8 @@ Uma das funcionalidades mais interessantes em um e-commerce é a Wishlist, ou a 
 - JUnit4  (Unit tests)
 - Swagger2 (Api Documentation)
 
+### Infraestrutura
 
+- Docker 
+- Docker-compose
 
