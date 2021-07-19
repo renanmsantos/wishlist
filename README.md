@@ -1,6 +1,6 @@
 # Sobre o projeto
 
-Projeto de teste de back-end para a LuizaLabs.
+Projeto de teste de back-end. =)
 
 ### Desafio
 
