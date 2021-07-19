@@ -11,7 +11,7 @@
 	<groupId>br.com.luizalabs</groupId>
 	<artifactId>wishlist</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>wishlist</name>
 	<description>Back-end test project =)</description>
 	<properties>

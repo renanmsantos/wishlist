@@ -1,0 +1,21 @@
+services:
+  wishlist:
+    container_name: wishlist
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: wishlist
+    ports:
+      - 8080:8080
+    networks:
+      - spring-network
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    networks:
+      - spring-network
+networks:
+  spring-network:
+    driver: bridge
