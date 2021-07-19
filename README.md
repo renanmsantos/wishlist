@@ -18,8 +18,9 @@ Uma das funcionalidades mais interessantes em um e-commerce é a Wishlist, ou a 
 
 - Spring Boot
 - Spring Web
-- Spring HATEOAGS (RESTFUL API)
+- Spring HATEOAS (RESTFUL API)
 - MongoDB (NoSQL database)
+- Maven (Project Management Tool)  
 - JUnit4  (Unit tests)
 - Swagger2 (Api Documentation)
 
